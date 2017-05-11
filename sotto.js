@@ -11,6 +11,7 @@
  */ 
 var fs = require('fs');
 var config = require('./sotto.config.js');
+var caseHandler = require('./bin/case-handler.js');
 var args = process.argv;
 var banner = require('./bin/banner.js');
 
@@ -39,11 +40,16 @@ args.forEach(function(filename, index, arr){
 /**
  * Calls the neccessary functions to take a file object given  by the config
  * file and build all the boilerplate files.
- * @param {string} filename - name of the file to create, without the extension
+ * @param {string} filename - name of the file to create, without the extension, 
+ * expected to be in supported lisp-case format
  * @param {object} file - the file object that specifies the parts of the file
  *                        to create.                       
  */
 function buildFiles(filename, file) {
+  if(!caseHandler.isLispCase(filename)) {
+    console.error('  Error: Please provide lisp-case input!\nIE: navbar-button OR homepage OR homepage-sidebar');
+    return;
+  }
   var fullname = filename + file.extension;
   var pathname = './'+filename+'/'+fullname;
 
@@ -55,10 +61,10 @@ function buildFiles(filename, file) {
     var parseData = {
       username: config.username,
       date : new Date(), //TODO: change format
-      name : filename, //TODO: remove
+      // name : filename, //TODO: remove
       titleName: filename, //TODO: update, will be TitleCase
-      camelName: filename, //TODO: update
-      lispName : filename //TODO: update
+      camelName: caseHandler.toCamelCase(filename),
+      lispName : filename //should be default
     };
     var parsedTemplate = parse(template, parseData);
     write(pathname, parsedTemplate);

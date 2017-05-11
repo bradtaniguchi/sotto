@@ -1,4 +1,4 @@
-/*{{camelCase}} specjs boilerplate*/
+/*{{camelName}} specjs boilerplate*/
 import {{titleName}}Module from './{{lispName)).module.js';
 
 describe('{{titleName}}', () => {
