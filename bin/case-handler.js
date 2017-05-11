@@ -20,7 +20,9 @@ module.exports = {
  * if the given string could not be parsed.
  */ 
 function toCamelCase(str) {
-  return str;
+  return str.replace(/-+([^-])/g, function(a, b) {
+    return b.toUpperCase();
+  });
 }
 /**
  * Transfers a camelCase string to lisp-case. If the string is not in
@@ -30,16 +32,22 @@ function toCamelCase(str) {
  * if the given string could not be parsed.
  */
 function toLispCase(str) {
-  return str;
+  return str.replace(/^[a-z]+([A-Z])/g, function(a, b){
+    a = a.slice(0, -1);
+    return a + '-'+b.toLowerCase();
+  });
 }
-
 /**
  * If the given string is in camelCase
  * @param {string} str - the string to check
  * @param {boolean} if the given string is in camelCase
  */ 
 function isCamelCase(str) {
-  return true;
+  if (typeof str === 'string') {
+    var regex = /^(?:[a-z]+[1-9]*([A-Z])*)+[a-z]*[1-9]*$/g;
+    return regex.test(str);
+  }
+  return false;
 }
 /**
  * Checks if the given string is in lisp-case
@@ -47,5 +55,8 @@ function isCamelCase(str) {
  * @returns {boolean} if the given string is in lisp-case
  */ 
 function isLispCase(str) {
-  return true;
+  if (typeof str === 'string') {
+    var regex = /^(?:[a-z]+[1-9]*-*)+[a-z]*[1-9]*$/g;
+    return regex.test(str);
+  }
 }
