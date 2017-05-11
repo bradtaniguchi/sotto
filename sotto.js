@@ -35,7 +35,6 @@ args.forEach(function(filename, index, arr){
     }
   }
 });
-console.log('done!');
 
 /**
  * Calls the neccessary functions to take a file object given  by the config
@@ -47,17 +46,24 @@ console.log('done!');
 function buildFiles(filename, file) {
   var fullname = filename + file.extension;
   var pathname = './'+filename+'/'+fullname;
-  console.log(filename);
-
 
   fs.readFile(file.template, config.encoding, function(err, template) {
     if(err) { 
       console.log(err);
       return;
     }
-    write(pathname, template);
+    var parseData = {
+      username: config.username,
+      date : new Date(), //TODO: change format
+      name : filename, //TODO: remove
+      titleName: filename, //TODO: update, will be TitleCase
+      camelName: filename, //TODO: update
+      lispName : filename //TODO: update
+    };
+    var parsedTemplate = parse(template, parseData);
+    write(pathname, parsedTemplate);
   });
-  /*TODO: work from here!*/
+  
 }
 /**
  * writes the given template string to the given file
