@@ -9,37 +9,56 @@
 module.exports = {
   toCamelCase: toCamelCase,
   toLispCase : toLispCase,
+  // toTitleCase : toTitleCase, //work in progress
   isCamelCase : isCamelCase,
   isLispCase : isLispCase
 };
 /**
  * Transfers a lisp-case string to camel case. If the string is not in 
  * lisp-case then the string is given back with no change.
- * @param {string} str - the string to change
- * @return {string} - return the modified string, or the same string
+ * @param {string} str the string to change
+ * 
+ * @return {string} the modified string, or the same string
  * if the given string could not be parsed.
  */ 
 function toCamelCase(str) {
-  return str.replace(/-+([^-])/g, function(a, b) {
-    return b.toUpperCase();
-  });
+  if(!isCamelCase(str)) {
+    return str.replace(/-+([^-])/g, function(a, b) {
+      return b.toUpperCase();
+    });
+  }
 }
 /**
  * Transfers a camelCase string to lisp-case. If the string is not in
  * camelCase then the given string is given back with no change
- * @param {string} str - the string to change
- * @return {string} - return the transfered change, or the same string
+ * @param {string} str the string to change
+ * 
+ * @return {string} the modified string, or the same string
  * if the given string could not be parsed.
  */
 function toLispCase(str) {
-  return str.replace(/^[a-z]+([A-Z])/g, function(a, b){
-    a = a.slice(0, -1);
-    return a + '-'+b.toLowerCase();
-  });
+  if(!isLispCase(str)) {
+    return str.replace(/^[a-z]+([A-Z])/g, function(a, b){
+      a = a.slice(0, -1);
+      return a + '-'+b.toLowerCase();
+    });
+  }
+}
+/**
+ * Transfer a camel-case string, or list-case string to a TitleCase.
+ * TitleCase is similar to camelCase, but the first letter is also capitalized.
+ * @param {string} str the string to change
+ * 
+ * @return {string} the modified string, or the same string if the
+ * given string could not be parsed, or is already in TitleCase.
+ */ 
+function toTitleCase(str) {
+  
 }
 /**
  * If the given string is in camelCase
  * @param {string} str - the string to check
+ * 
  * @param {boolean} if the given string is in camelCase
  */ 
 function isCamelCase(str) {
@@ -52,6 +71,7 @@ function isCamelCase(str) {
 /**
  * Checks if the given string is in lisp-case
  * @param {string} str - the string to check
+ * 
  * @returns {boolean} if the given string is in lisp-case
  */ 
 function isLispCase(str) {
