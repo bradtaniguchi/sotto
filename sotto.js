@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /**
  * Bradley Taniguchi
  * 5/10/17

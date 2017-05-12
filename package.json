@@ -1,12 +1,14 @@
 {
   "name": "sottojs",
-  "version": "0.1.1",
+  "version": "0.1.5",
   "description": "A straight foward Angularjs boilerplate generator",
   "main": "sotto.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "bin": "./sotto.js",
+  "bin": {
+      "sotto": "./sotto.js"
+  },
   "keywords": [
     "sotto", 
     "bradtaniguchi",
