@@ -15,8 +15,11 @@ var config = require('./sotto.config.js');
 var caseHandler = require('./bin/case-handler.js');
 var args = process.argv;
 var banner = require('./bin/banner.js');
+var path = require('path');
+var pjson = require('./package.json');
 
 console.log(banner);
+console.log('v ' + pjson.version);
 
 if(args.length < 3) {
   console.log('Not enough args!');
@@ -53,8 +56,8 @@ function buildFiles(filename, file) {
   }
   var fullname = filename + file.extension;
   var pathname = './'+filename+'/'+fullname;
-
-  fs.readFile(file.template, config.encoding, function(err, template) {
+  var fileTemplatePath = path.join(__dirname, file.template);
+  fs.readFile(fileTemplatePath, config.encoding, function(err, template) {
     if(err) { 
       console.log(err);
       return;
