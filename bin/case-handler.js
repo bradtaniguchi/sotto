@@ -11,7 +11,8 @@ module.exports = {
   toLispCase : toLispCase,
   // toTitleCase : toTitleCase, //work in progress
   isCamelCase : isCamelCase,
-  isLispCase : isLispCase
+  isLispCase : isLispCase,
+  lispToTitleCase : lispToTitleCase //work in progress
 };
 /**
  * Transfers a lisp-case string to camel case. If the string is not in 
@@ -45,12 +46,28 @@ function toLispCase(str) {
   }
 }
 /**
+ * Transfers lispCase to TitleCase without dashes.
+ * This is neccessary to create modules
+ * @param {string} str the string to change
+ */
+function lispToTitleCase(str) {
+  var words = str.split('-');
+  var newWords = [];
+  words.map(function(word) {
+    var newWord = word.charAt(0).toUpperCase() + word.slice(1);
+    console.log(newWord);
+    newWords.push(newWord);
+  });
+  return newWords.join('');
+}
+/**
  * Transfer a camel-case string, or list-case string to a TitleCase.
  * TitleCase is similar to camelCase, but the first letter is also capitalized.
  * @param {string} str the string to change
  * 
  * @return {string} the modified string, or the same string if the
  * given string could not be parsed, or is already in TitleCase.
+ * NOTE: this can be depreciated.
  */ 
 function toTitleCase(str) {
   

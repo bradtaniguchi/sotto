@@ -66,7 +66,7 @@ function buildFiles(filename, file) {
       username: config.username,
       date : new Date(), //TODO: change format
       // name : filename, //TODO: remove
-      titleName: filename, //TODO: update, will be TitleCase
+      titleName: caseHandler.lispCaseToTitleCase(filename), 
       camelName: caseHandler.toCamelCase(filename),
       lispName : filename //should be default
     };

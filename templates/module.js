@@ -3,10 +3,10 @@
  * {{date}}
  */
 import angular from 'angular';
-import {{camelName}}Component from './{{lispName}}.component';
+import {{titleName}}Component from './{{lispName}}.component';
 
 angular
-  .module('{{lispName}}', [
+  .module('{{titleName}}', [
   
-  ]).component('{{camelName}}', {{camelName}}Component)
+  ]).component('{{camelName}}', {{titleName}}Component)
   .name;
