@@ -12,7 +12,7 @@ module.exports = {
   // toTitleCase : toTitleCase, //work in progress
   isCamelCase : isCamelCase,
   isLispCase : isLispCase,
-  lispToTitleCase : lispToTitleCase //work in progress
+  lispCaseToTitleCase : lispCaseToTitleCase //work in progress
 };
 /**
  * Transfers a lisp-case string to camel case. If the string is not in 
@@ -50,7 +50,7 @@ function toLispCase(str) {
  * This is neccessary to create modules
  * @param {string} str the string to change
  */
-function lispToTitleCase(str) {
+function lispCaseToTitleCase(str) {
   var words = str.split('-');
   var newWords = [];
   words.map(function(word) {
