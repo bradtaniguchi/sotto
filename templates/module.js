@@ -5,6 +5,7 @@
 import angular from 'angular';
 import {{titleName}}Component from './{{lispName}}.component';
 
+export default
 angular
   .module('{{titleName}}', [
   
