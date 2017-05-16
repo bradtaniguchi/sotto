@@ -1,0 +1,42 @@
+# TODO:
+todo list of accomplishments for the 0.2.0 re-write.
+
+-migrate all the files to .txt file extensions
+-migrate most of the sotto.js logic to modules inside of bin directory
+-added new template file options
+  -routeComponent
+  -moduleComponent
+  -dialog
+-add argument parsing to capture the type (default is generic component)
+-add local config parsing
+
+
+Modules to create:
+0. See below for ones needed for flags!
+1. Migrate template+parser to a new folder+module
+2. Migrate Arg-parse to new folder+module
+3. Create module to handle the config
+4. Create module to handle file Types
+5. Create module for help
+
+----
+Command flags definantly going to add
+-h, --help : shows the help text. (create module)
+-v, --verbose : toggles verbose printouts (create global variable?)
+
+-d, --deps, --dependencies : args following this flag will be added as
+dependencies to the previous module.
+-t, --type : component type, 'module', 'basic (default)' 'route'
+  if this flag is given WITHOUT a following arg, we will printout 
+  the types. (create module)
+-c, --config : relative path of config file to use
+  if this flag is given without a folloing arg, we will printout
+  the current paths of all config files found (create module)
+
+-----
+Notes on order:
+sotto [NAME_OF_FILES] --deps [DEPENDENCIES_FOR_ALL_PREV_FILES] --type [TYPE_OF
+ALL_PREVIOUS_FILES]
+
+
+If given out of order, we w
