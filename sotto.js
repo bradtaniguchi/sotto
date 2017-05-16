@@ -19,28 +19,47 @@ var path = require('path');
 var pjson = require('./package.json');
 
 console.log(banner);
-console.log('v ' + pjson.version);
+console.log('v ' + pjson.version + '\n');
 
 if(args.length < 3) {
   console.log('Not enough args!');
   process.exit(1);
 }
 args.forEach(function(filename, index, arr){
-  if(index >= 2) {
-    console.log('Creating boilerplate for: ' + filename);
-    // NOTE: this is blocking!
-    if(!fs.existsSync(filename)) {
-      console.log('Creating folder: ' + filename);
-      fs.mkdirSync(filename);
-      config.files.forEach(function(file){
-        buildFiles(filename, file);
-      });
-    } else {
-      console.log('  Folder ' + filename + ' already exists!');
+  if (index >= 2) {
+    if (!checkArg(filename)) {
+      console.log('Creating boilerplate for: ' + filename);
+      // NOTE: this is blocking!
+      if(!fs.existsSync(filename)) {
+        console.log('Creating folder: ' + filename);
+        fs.mkdirSync(filename);
+        config.files.forEach(function(file){
+          buildFiles(filename, file);
+        });
+      } else {
+        console.log('  Folder ' + filename + ' already exists!');
+      }
     }
   }
 });
-
+/**
+ * Checks the args for a special tag
+ * This is used mainly to get the two currently supported flags, help and
+ * verison.
+ * @param {string} arg the arg to parse.
+ * @return {boolean} if the arg is a special arg, thus do not process it.
+ */
+function checkArg(arg) {
+  if (arg === '-h' || arg === '--help') {
+    console.log('Hold on buddy help is on the way ;D');
+    return true;
+  }
+  if (arg === '-v' || arg === '--version') {
+    console.log('v ' + pjson.version);
+    return true;
+  }
+  return false;
+}
 /**
  * Calls the neccessary functions to take a file object given  by the config
  * file and build all the boilerplate files.
@@ -64,8 +83,8 @@ function buildFiles(filename, file) {
     }
     var parseData = {
       username: config.username,
-      date : new Date(), //TODO: change format
-      // name : filename, //TODO: remove
+      date : new Date(Date.now()).toLocaleString(), 
+      name : filename, //TODO: remove
       titleName: caseHandler.lispCaseToTitleCase(filename), 
       camelName: caseHandler.toCamelCase(filename),
       lispName : filename //should be default

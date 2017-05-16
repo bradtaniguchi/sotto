@@ -55,7 +55,6 @@ function lispCaseToTitleCase(str) {
   var newWords = [];
   words.map(function(word) {
     var newWord = word.charAt(0).toUpperCase() + word.slice(1);
-    console.log(newWord);
     newWords.push(newWord);
   });
   return newWords.join('');
