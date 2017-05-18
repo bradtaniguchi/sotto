@@ -26,5 +26,12 @@ var COMPONENT_FILES = [
  * @return {string[]} array of string types.
  */
 function getTypes() {
-     
+  return COMPONENT_FILES;
+}
+
+/**
+ * Returns if the given strng is a type.
+ */
+function isType(str) {
+  return (COMPONENT_FILES.indexOf(str) >= 0);
 }
