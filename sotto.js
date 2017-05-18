@@ -54,6 +54,7 @@ for (var i = 2; i < length; i++) {
   //now we build the file, as it doesn't meet any of the above
   buildFolder(arg, function(builtFolder){
     if (builtFolder) {
+      console.log('Building folder for: ' + arg);
       // create the files for said folder
       config.files.forEach(function(file) {
         buildFiles(arg, file, deps);
@@ -80,35 +81,6 @@ function buildFolder(folderName, callback) {
       callback(false);
     }
   }
-}
-
-/**
- * Checks the args for a special tag
- * This is used mainly to get the two currently supported flags, help and
- * verison.
- * @param {string} arg the arg to parse.
- * @param {string} 
- * @return {boolean} returns true if the arg is a special arg, and this
- *  functio took action.
- */
-function parseArgs(arg, index, arr) {
-  if (arg === '-h' || arg === '--help') {
-    console.log(messages.help());
-    return true;
-  }
-  if (arg === '-v' || arg === '--version') {
-    console.log('v ' + pjson.version);
-    return true;
-  }
-  if (arg === '-d' || arg === '--dependencies' && index < arr.length-1) {
-    // any following strings are dependencies
-    var nextIndex = index+1;
-    var deps = arr.splice(nextIndex, arr.length - nextIndex);
-    console.log('deps: ');
-    console.log(deps);
-    return true;
-  }
-  return false;
 }
 
 /**
