@@ -1,6 +1,6 @@
 {
   "name": "sottojs",
-  "version": "0.2.1",
+  "version": "0.2.3",
   "description": "A straight foward Angularjs boilerplate generator",
   "main": "sotto.js",
   "scripts": {
