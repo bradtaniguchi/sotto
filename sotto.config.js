@@ -16,23 +16,23 @@ module.exports = {
   files: [
     {
       extension: '.component.js',
-      template: './templates/component.js'
+      template: './templates/component.txt'
     },
     {
       extension: '.module.js',
-      template: './templates/module.js'
+      template: './templates/module.txt'
     },
     {
       extension: '.scss',
-      template: './templates/scss.template'
+      template: './templates/scss.txt'
     },
     {
       extension: '.html',
-      template: './templates/html.template'
+      template: './templates/html.txt'
     }, 
     {
       extension: '.spec.js',
-      template: './templates/spec.js'
+      template: './templates/spec.txt'
     }
   ]
 };
