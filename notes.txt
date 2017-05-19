@@ -18,6 +18,9 @@ Modules to create:
 3. Create module to handle the config
 4. Create module to handle file Types
 5. Create module for help
+6. Create a message module, to hold different messages to display on screen.
+  Mainly to keep together the Banner and Help pages.
+
 
 ----
 Command flags definantly going to add
@@ -39,4 +42,5 @@ sotto [NAME_OF_FILES] --deps [DEPENDENCIES_FOR_ALL_PREV_FILES] --type [TYPE_OF
 ALL_PREVIOUS_FILES]
 
 
-If given out of order, we w
+If given out of order, we will display an error message.
+

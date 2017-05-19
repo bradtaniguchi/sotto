@@ -14,61 +14,85 @@ var fs = require('fs');
 var config = require('./sotto.config.js');
 var caseHandler = require('./bin/case-handler.js');
 var args = process.argv;
-var banner = require('./bin/banner.js');
+var messages = require('./bin/messages.js');
 var path = require('path');
 var pjson = require('./package.json');
+var depHandler = require('./bin/dependency-handler.js');
 
-console.log(banner);
+console.log(messages.banner());
 console.log('v ' + pjson.version + '\n');
 
 if(args.length < 3) {
-  console.log('Not enough args!');
+  console.log(messages.notEnoughArgs());
   process.exit(1);
 }
-args.forEach(function(filename, index, arr){
-  if (index >= 2) {
-    if (!checkArg(filename)) {
-      console.log('Creating boilerplate for: ' + filename);
-      // NOTE: this is blocking!
-      if(!fs.existsSync(filename)) {
-        console.log('Creating folder: ' + filename);
-        fs.mkdirSync(filename);
-        config.files.forEach(function(file){
-          buildFiles(filename, file);
-        });
-      } else {
-        console.log('  Folder ' + filename + ' already exists!');
-      }
-    }
-  }
-});
-/**
- * Checks the args for a special tag
- * This is used mainly to get the two currently supported flags, help and
- * verison.
- * @param {string} arg the arg to parse.
- * @return {boolean} if the arg is a special arg, thus do not process it.
- */
-function checkArg(arg) {
+
+// parse the given args
+var length = args.length;
+for (var i = 2; i < length; i++) {
+  var arg = args[i];
+  var deps = []; // array of dependencies
+  
+  
   if (arg === '-h' || arg === '--help') {
-    console.log('Hold on buddy help is on the way ;D');
-    return true;
+    console.log(messages.help());
+    continue;
   }
   if (arg === '-v' || arg === '--version') {
     console.log('v ' + pjson.version);
-    return true;
+    continue;
   }
-  return false;
+  if ((arg === '-d' || arg === '--dependencies') && i < length-1) {
+    var nextIndex = i+1;
+    deps = args.splice(nextIndex, length - nextIndex);
+    console.log('deps: ');
+    console.log(deps);
+    break;
+  }
+  // ADD other filtering here!
+  
+  //now we build the file, as it doesn't meet any of the above
+  buildFolder(arg, function(builtFolder){
+    if (builtFolder) {
+      console.log('Building folder for: ' + arg);
+      // create the files for said folder
+      config.files.forEach(function(file) {
+        buildFiles(arg, file, deps);
+      });
+    }
+  });
 }
+
+/**
+ * Builds the given folder synchronously
+ * @param {string} folderName the name of the folder to check, and create
+ * @param {function} callback, callback function to call after we create,
+ *  or fail to create the folder. We pass true if we were able to create the
+ *  folder, and false if we were not able to.
+ */ 
+function buildFolder(folderName, callback) {
+  if (!fs.existsSync(folderName)) {
+    fs.mkdirSync(folderName);
+    if (typeof callback === 'function') {
+      callback(true);
+    }
+  } else {
+    if(typeof callback === 'function') {
+      callback(false);
+    }
+  }
+}
+
 /**
  * Calls the neccessary functions to take a file object given  by the config
  * file and build all the boilerplate files.
  * @param {string} filename - name of the file to create, without the extension, 
  * expected to be in supported lisp-case format
  * @param {object} file - the file object that specifies the parts of the file
- *                        to create.                       
+ *                        to create.
+ * @param {string[]} deps - file dependencies to add to the given file
  */
-function buildFiles(filename, file) {
+function buildFiles(filename, file, deps) {
   if(!caseHandler.isLispCase(filename)) {
     console.error('  Error: Please provide lisp-case input!\nIE: navbar-button OR homepage OR homepage-sidebar');
     return;
@@ -87,12 +111,14 @@ function buildFiles(filename, file) {
       name : filename, //TODO: remove
       titleName: caseHandler.lispCaseToTitleCase(filename), 
       camelName: caseHandler.toCamelCase(filename),
-      lispName : filename //should be default
+      lispName : filename, //should be default
+      depString: depHandler.getString(deps), // list of deps
+      depInjectors: depHandler.getInjects(deps) // injects for deps
+      
     };
     var parsedTemplate = parse(template, parseData);
     write(pathname, parsedTemplate);
   });
-  
 }
 /**
  * writes the given template string to the given file
@@ -108,6 +134,12 @@ function write(filename, template) {
   });
 }
 
+/**
+ * Converter function, takes a list of strings and returns a 
+ * command seperate 
+function depStringGenerator(deps) {
+  
+}
 /**
  * Replace the variables in the template file with the provided
  * data.

@@ -15,9 +15,12 @@ module.exports = function(filename, type, dependencies) {
   if (type === undefined) {
     type = '';
   }
+  if (dependencies === undefined) {
+    dependencies = [];
+  }
   return {
     filename : filename,
     type : type,
-    
+    dependencies: dependencies
   };
 }
