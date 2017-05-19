@@ -15,5 +15,9 @@
     "angularjs"
   ],
   "author": "Bradley Taniguchi",
+  "repository" : { 
+    "type" : "git",
+    "url" : "https://github.com/bradtaniguchi/sotto.git"
+  },
   "license": "MIT"
 }
